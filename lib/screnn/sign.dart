@@ -1,9 +1,12 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebaseprojecttttt/screnn/home.dart';
 import 'package:firebaseprojecttttt/screnn/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../models/usermodels.dart';
 class SignScreen extends StatefulWidget {
   const SignScreen({super.key});
 
@@ -15,8 +18,52 @@ class _SignScreenState extends State<SignScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _email=TextEditingController();
   final TextEditingController _password=TextEditingController();
-  late String email, password;
+  final firstNameEditingController = new TextEditingController();
+  final secondNameEditingController = new TextEditingController();
+  final emailEditingController = new TextEditingController();
+  final passwordEditingController = new TextEditingController();
+  final confirmPasswordEditingController = new TextEditingController();
+  late String  ad, soyad, email, sifre, sifretekrar;
   final firebaseAuth= FirebaseAuth.instance;
+
+
+  kayit(String mail, String password)async{
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+        final userResult= await firebaseAuth.createUserWithEmailAndPassword(email: mail, password: password).then((value) {
+          postt();
+        });
+          }
+    else
+    {
+      print("HATAAAAA");
+    }
+  }
+
+  postt() async{
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = firebaseAuth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = ad;
+    userModel.secondName = soyad;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => HomeScreenn()),
+            (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +79,54 @@ class _SignScreenState extends State<SignScreen> {
                     child: Center(
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        controller:_email ,
+                        validator: ( value){
+                          if (value!.isEmpty) {
+                            return "Lütfen Adınızı giriniz";
+                          } else {
+                            return null;
+                          }
+                        },
+
+                        onSaved: (value){
+                          ad=value!;
+                        },
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.mail),
+                            hintText: "Ad"
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        validator: ( value){
+                          if (value!.isEmpty) {
+                            return "Lütfen Soyadınızı giriniz";
+                          } else {
+                            return null;
+                          }
+                        },
+
+                        onSaved: (value){
+                          soyad=value!;
+                        },
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.mail),
+                            hintText: "Soyad"
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: TextFormField(
+                        controller: emailEditingController,
+                        keyboardType: TextInputType.emailAddress,
                         validator: ( value){
                           if (value!.isEmpty) {
                             return "Lütfen emailinizi giriniz";
@@ -55,6 +149,7 @@ class _SignScreenState extends State<SignScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: TextFormField(
+                        controller: passwordEditingController,
                         validator: (value){
                           if (value!.isEmpty) {
                             return "Lütfen şifrenizi giriniz";
@@ -63,45 +158,22 @@ class _SignScreenState extends State<SignScreen> {
                           }
                         },
                         onSaved: (value){
-                          password=value!;
+                          sifre=value!;
                         },
                         obscureText: true,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.password),
-                          hintText: "Password",
+                          hintText: "Şifre",
 
                         ),
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () async{
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        try{
-                          final userResult= await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-                          formKey.currentState!.reset();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => LoginScreen()),
-                          );
-                          print( "DFFFFFFFFFFFFFFFFF");
-                          print(userResult.user!.email );
-                        } catch(e){
-                          print( "AAAAAAAAAAAAAAA");
-                          print(e.toString());
-                        }
-                      }
-                      else
-                      {}
 
-
+                 InkWell(
+                    onTap: () {
+                      kayit( emailEditingController.text, passwordEditingController.text );
                     },
-
-
-
-
                     child: Container(
                       width: 100,
                       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
