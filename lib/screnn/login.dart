@@ -28,7 +28,7 @@ Future<String>giris( String email, String password)async{
       final useraResult= await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       res="Başarılı";
       print(res);
-      Fluttertoast.showToast(msg: "Giriş Başarılı", timeInSecForIosWeb: 3, backgroundColor: Colors.yellow, textColor: Colors.black);
+      Fluttertoast.showToast(msg: "Giriş Başarılı", toastLength:Toast.LENGTH_LONG , gravity: ToastGravity.TOP, timeInSecForIosWeb: 3, backgroundColor: Colors.yellow, textColor: Colors.black);
       Navigator.push(
         context,
         MaterialPageRoute(
