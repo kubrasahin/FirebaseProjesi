@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "353692944425",
+    "project_id": "akademiauth",
+    "storage_bucket": "akademiauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353692944425:android:1dd556336620fbc73cf438",
+        "android_client_info": {
+          "package_name": "com.example.firebaseprojecttttt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkVbNzKFqwALjQh7u6x3vn2PH357NP3Ds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
