@@ -28,41 +28,40 @@ class _SignScreenState extends State<SignScreen> {
 
 
   kayit(String mail, String password)async{
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+    String? res;
+        try{
 
-        final userResult= await firebaseAuth.createUserWithEmailAndPassword(email: mail, password: password).then((value) {
-          postt();
-        });
+          final userResult= await firebaseAuth.createUserWithEmailAndPassword(email: mail, password: password);
+          print(userResult);
+          FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+          User? user = firebaseAuth.currentUser;
+          await firebaseFirestore
+              .collection("users")
+              .add( {
+            "ad":ad,
+            "soyad":soyad,
+            "email":email
+
+          });
+    Navigator.push(
+    (context),
+    MaterialPageRoute(builder: (context) => HomeScreenn()),
+   );
+
+          } on FirebaseAuthException catch(e){
+          switch(e.code){
+
+            case "email-already-in-use ": res="Mail zaten kayıtlı"; break;
+
           }
-    else
-    {
-      print("HATAAAAA");
-    }
+
+        }
+    return res;
+
+
   }
 
-  postt() async{
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = firebaseAuth.currentUser;
 
-    UserModel userModel = UserModel();
-
-    // writing all the values
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.firstName = ad;
-    userModel.secondName = soyad;
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => HomeScreenn()),
-            (route) => false);
-  }
 
   @override
   Widget build(BuildContext context) {

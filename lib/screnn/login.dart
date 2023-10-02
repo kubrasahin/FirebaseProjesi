@@ -13,10 +13,37 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController _email=TextEditingController();
-  final TextEditingController _password=TextEditingController();
+  final TextEditingController emailController=TextEditingController();
+  final TextEditingController passwordController=TextEditingController();
   late String email, password;
 final firebaseAuth= FirebaseAuth.instance;
+
+
+Future<String>giris( String email, String password)async{
+  String? res;
+  if (formKey.currentState!.validate()) {
+    formKey.currentState!.save();
+    try{
+      final useraResult= await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      res="Başarılı";
+      print(res);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => HomeScreenn()),
+      );
+    } on FirebaseAuthException catch(e){
+      print(e);
+if(e.code== "INVALID_LOGIN_CREDENTIALS"){
+  res="Kullanıcı Adı Yada Şifre Hatalı";
+  print(res);
+}
+    }
+  }
+  return res.toString();
+
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +59,7 @@ final firebaseAuth= FirebaseAuth.instance;
               child: Center(
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  controller:_email ,
+                  controller:emailController ,
    validator: ( value){
     if (value!.isEmpty) {
     return "Lütfen emailinizi giriniz";
@@ -55,6 +82,7 @@ final firebaseAuth= FirebaseAuth.instance;
               padding: const EdgeInsets.all(8.0),
               child: Center(
                 child: TextFormField(
+                  controller: passwordController,
                   validator: (value){
                     if (value!.isEmpty) {
                       return "Lütfen şifrenizi giriniz";
@@ -76,27 +104,7 @@ final firebaseAuth= FirebaseAuth.instance;
             ),
             InkWell(
               onTap: () async{
-                if (formKey.currentState!.validate()) {
-    formKey.currentState!.save();
-    try{
-      final useraResult= await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreenn()),
-      );
-      print( "DFFFFFFFFFFFFFFFFF");
-      print(useraResult.user!.email );
-    } catch(e){
-      print( "AAAAAAAAAAAAAAA");
-print(e.toString());
-    }
-    }
-  else
-    {}
-
-
+giris(emailController.text, passwordController.text);
                 },
 
 
