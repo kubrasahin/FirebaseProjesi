@@ -30,7 +30,6 @@ class _SignScreenState extends State<SignScreen> {
   kayit(String mail, String password)async{
     String? res;
         try{
-
           final userResult= await firebaseAuth.createUserWithEmailAndPassword(email: mail, password: password);
           print(userResult);
           FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -43,13 +42,12 @@ class _SignScreenState extends State<SignScreen> {
             "email":email
 
           });
-    Navigator.push(
-    (context),
-    MaterialPageRoute(builder: (context) => HomeScreenn()),
-   );
-
-          } on FirebaseAuthException catch(e){
-          switch(e.code){
+             Navigator.push(
+            (context),
+             MaterialPageRoute(builder: (context) => HomeScreenn()),
+           );
+           } on FirebaseAuthException catch(e){
+            switch(e.code){
 
             case "email-already-in-use ": res="Mail zaten kayıtlı"; break;
 

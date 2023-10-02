@@ -4,6 +4,7 @@ import 'package:firebaseprojecttttt/screnn/home.dart';
 import 'package:firebaseprojecttttt/screnn/sign.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -27,6 +28,7 @@ Future<String>giris( String email, String password)async{
       final useraResult= await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       res="Başarılı";
       print(res);
+      Fluttertoast.showToast(msg: "Giriş Başarılı", timeInSecForIosWeb: 3, backgroundColor: Colors.yellow, textColor: Colors.black);
       Navigator.push(
         context,
         MaterialPageRoute(

@@ -20,7 +20,7 @@ class _HomeScreennState extends State<HomeScreenn> {
         children: [
           Text("HOME"),
           InkWell(onTap: (){
-            firebaseAuth.signOut();
+            firebaseAuth.signOut(); //çıkış işlemi
               Navigator.push(context, MaterialPageRoute (
                 builder: (BuildContext context) =>LoginScreen()
               ), );
