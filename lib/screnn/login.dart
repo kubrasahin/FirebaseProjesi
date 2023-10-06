@@ -38,6 +38,7 @@ Future<String>giris( String email, String password)async{
       print(e);
 if(e.code== "INVALID_LOGIN_CREDENTIALS"){
   res="Kullanıcı Adı Yada Şifre Hatalı";
+  Fluttertoast.showToast(msg: res, toastLength:Toast.LENGTH_LONG , gravity: ToastGravity.TOP, timeInSecForIosWeb: 3, backgroundColor: Colors.yellow, textColor: Colors.black);
   print(res);
 }
     }
