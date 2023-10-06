@@ -1,12 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebaseprojecttttt/screnn/login.dart';
+import 'package:firebaseprojecttttt/service/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 
 void main() async{
-  late final FirebaseMessaging messaging;
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseService  _firebaseservice=FirebaseService();
+ _firebaseservice.connectNotification();
+  runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
