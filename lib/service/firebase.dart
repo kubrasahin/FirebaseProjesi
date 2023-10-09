@@ -14,7 +14,6 @@ class FirebaseService{
     await messaging.requestPermission(
         alert: true,
         sound: true,
-
         badge: true
     );
   }

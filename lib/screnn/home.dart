@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebaseprojecttttt/screnn/ikinciSyafa.dart';
 import 'package:firebaseprojecttttt/screnn/login.dart';
+import 'package:firebaseprojecttttt/state/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreenn extends StatefulWidget {
   const HomeScreenn({super.key});
@@ -61,7 +64,15 @@ class _HomeScreennState extends State<HomeScreenn> {
               Navigator.push(context, MaterialPageRoute (
                 builder: (BuildContext context) =>LoginScreen()
               ), );
-          }, child: Text("Çıkış"))
+          }, child: Text("Çıkış")),
+
+          Text("${Provider.of<SayacProvider>(context).sayi}"),
+         IconButton(onPressed: (){
+           Provider.of<SayacProvider>(context, listen: false).sayiArttir();
+         }, icon:Icon(Icons.add)),
+          TextButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ikinciSyafa()));
+          }, child: Text(" Diger Sayfa"),)
         ],
       ),)),
     );
