@@ -17,6 +17,8 @@ class HomeScreenn extends StatefulWidget {
 }
 
 class _HomeScreennState extends State<HomeScreenn> {
+  String? meyve;
+  TextEditingController meyveController=TextEditingController();
   late final FirebaseMessaging messaging;
   final firebaseAuth= FirebaseAuth.instance;
   @override
@@ -54,6 +56,7 @@ class _HomeScreennState extends State<HomeScreenn> {
   }
   @override
   Widget build(BuildContext context) {
+   final uruncart= Provider.of<AddListe>(context);
     return Scaffold(
       body: Center(child: Container(child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +75,25 @@ class _HomeScreennState extends State<HomeScreenn> {
          }, icon:Icon(Icons.add)),
           TextButton(onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>ikinciSyafa()));
-          }, child: Text(" Diger Sayfa"),)
+          }, child: Text(" Diger Sayfa"),),
+
+           Expanded(child: ListView.builder(shrinkWrap: true, itemCount:uruncart.count, itemBuilder: (context, index ){
+             return Card(
+               child: ListTile(title: Text(uruncart.getCard(index)),),
+             );
+           })),
+          TextFormField(
+            controller: meyveController,
+            onSaved: (value){
+              meyve=value;
+            },
+            decoration: InputDecoration(
+              hintText: "Meyve Giriniz"
+            ),
+          ),
+           InkWell(onTap: (){
+             uruncart.addLiseleme(meyveController.text);
+           }, child: Container( child: Text("MEYVE EKLE "),))
         ],
       ),)),
     );

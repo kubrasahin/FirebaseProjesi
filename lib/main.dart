@@ -15,7 +15,8 @@ void main() async{
  _firebaseservice.connectNotification();
   FirebaseMessaging.instance.subscribeToTopic("topics");
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context)=>SayacProvider())
+    ChangeNotifierProvider(create: (context)=>SayacProvider()),
+    ChangeNotifierProvider(create: (context)=>AddListe())
   ], child: const MyApp()));
 
 }

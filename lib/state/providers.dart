@@ -7,3 +7,19 @@ class SayacProvider with ChangeNotifier{
     notifyListeners(); // dinleyicilere bildir
   }
 }
+
+class AddListe with ChangeNotifier{
+    List<String> urunListesi=["Elma", "Portakal", "Kiraz"];
+    int get count=>urunListesi.length;
+    String getCard(int index )=>urunListesi[index];
+
+    void addLiseleme(String meyve){
+      urunListesi.add(meyve);
+      notifyListeners();
+      
+    }
+ void removeList(){
+      urunListesi.removeAt(urunListesi.length-1);
+      notifyListeners();
+ }
+}
