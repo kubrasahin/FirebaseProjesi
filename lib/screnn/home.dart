@@ -17,7 +17,8 @@ class HomeScreenn extends StatefulWidget {
 }
 
 class _HomeScreennState extends State<HomeScreenn> {
-  String? meyve;
+  String? meyve , meyvee;
+  int? indexx;
   TextEditingController meyveController=TextEditingController();
   late final FirebaseMessaging messaging;
   final firebaseAuth= FirebaseAuth.instance;
@@ -78,22 +79,33 @@ class _HomeScreennState extends State<HomeScreenn> {
           }, child: Text(" Diger Sayfa"),),
 
            Expanded(child: ListView.builder(shrinkWrap: true, itemCount:uruncart.count, itemBuilder: (context, index ){
-             return Card(
-               child: ListTile(title: Text(uruncart.getCard(index)),),
+             return InkWell(
+               onTap: (){
+
+                 meyveController.text= uruncart.urunListesi[index].toString();
+                 indexx= index;
+               },
+               child: Card(
+                 child: ListTile(title: Text(uruncart.urunListesi[index]),),
+               ),
              );
            })),
           TextFormField(
+            key: Key(meyvee.toString()),
+            initialValue: meyvee,
             controller: meyveController,
             onSaved: (value){
               meyve=value;
             },
+
             decoration: InputDecoration(
               hintText: "Meyve Giriniz"
             ),
           ),
            InkWell(onTap: (){
-             uruncart.addLiseleme(meyveController.text);
-           }, child: Container( child: Text("MEYVE EKLE "),))
+           //  uruncart.addLiseleme(meyveController.text);
+uruncart.guncelle( indexx,meyveController.text );
+meyveController.clear();}, child: Container( child: Text("MEYVE EKLE "),))
         ],
       ),)),
     );

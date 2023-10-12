@@ -16,8 +16,12 @@ class AddListe with ChangeNotifier{
     void addLiseleme(String meyve){
       urunListesi.add(meyve);
       notifyListeners();
-      
     }
+    void guncelle(index, String yeniDeger, ){
+      urunListesi[index]=yeniDeger;
+      notifyListeners();
+    }
+
  void removeList(){
       urunListesi.removeAt(urunListesi.length-1);
       notifyListeners();
