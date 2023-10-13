@@ -5,6 +5,7 @@ import 'package:firebaseprojecttttt/screnn/login.dart';
 import 'package:firebaseprojecttttt/service/firebase.dart';
 import 'package:firebaseprojecttttt/state/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:grock/grock.dart';
 import 'package:provider/provider.dart';
 
@@ -14,10 +15,7 @@ void main() async{
   FirebaseService  _firebaseservice=FirebaseService();
  _firebaseservice.connectNotification();
   FirebaseMessaging.instance.subscribeToTopic("topics");
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context)=>SayacProvider()),
-    ChangeNotifierProvider(create: (context)=>AddListe())
-  ], child: const MyApp()));
+  runApp( const MyApp());
 
 }
 
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: Grock.navigationKey,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

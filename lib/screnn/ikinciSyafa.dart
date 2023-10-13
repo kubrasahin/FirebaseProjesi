@@ -1,4 +1,7 @@
+import 'package:firebaseprojecttttt/state/getx.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 
 import '../state/providers.dart';
@@ -11,6 +14,7 @@ class ikinciSyafa extends StatefulWidget {
 }
 
 class _ikinciSyafaState extends State<ikinciSyafa> {
+  final controller = Get.put(GetxKullanimi());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +22,9 @@ class _ikinciSyafaState extends State<ikinciSyafa> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 
-          Text("${Provider.of<SayacProvider>(context).sayi}"),
+          Obx(()=> Text(controller.count.toString())),
           IconButton(onPressed: (){
-            Provider.of<SayacProvider>(context, listen: false).sayiArttir();
+           controller.increment();
           }, icon:Icon(Icons.add)),
 
 

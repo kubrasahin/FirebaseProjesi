@@ -1,6 +1,7 @@
 
 
 import 'package:firebaseprojecttttt/screnn/home.dart';
+import 'package:firebaseprojecttttt/screnn/ikinciSyafa.dart';
 import 'package:firebaseprojecttttt/screnn/sign.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,7 @@ Future<String>giris( String email, String password)async{
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreenn()),
+            builder: (BuildContext context) => ikinciSyafa()),
       );
     } on FirebaseAuthException catch(e){
       print(e);
